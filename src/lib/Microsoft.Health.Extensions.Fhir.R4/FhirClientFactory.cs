@@ -15,19 +15,23 @@ namespace Microsoft.Health.Extensions.Fhir
     public class FhirClientFactory : IFactory<IFhirClient>
     {
         private readonly bool _useManagedIdentity = false;
+        private readonly bool _useClientCredentials = false;
 
         private FhirClientFactory()
-            : this(useManagedIdentity: false)
+            : this(useManagedIdentity: false, useClientCredentials: false)
         {
         }
 
-        private FhirClientFactory(bool useManagedIdentity)
+        private FhirClientFactory(bool useManagedIdentity, bool useClientCredentials)
         {
             _useManagedIdentity = useManagedIdentity;
+            _useClientCredentials = useClientCredentials;
         }
 
         public FhirClientFactory(IOptions<FhirClientFactoryOptions> options)
-            : this(EnsureArg.IsNotNull(options, nameof(options)).Value.UseManagedIdentity)
+            : this(
+                EnsureArg.IsNotNull(options, nameof(options)).Value.UseManagedIdentity,
+                EnsureArg.IsNotNull(options, nameof(options)).Value.UseClientCredentials)
         {
         }
 
@@ -35,7 +39,11 @@ namespace Microsoft.Health.Extensions.Fhir
 
         public IFhirClient Create()
         {
-            return _useManagedIdentity ? CreateManagedIdentityClient() : CreateConfidentialApplicationClient();
+            return _useManagedIdentity
+                ? CreateManagedIdentityClient()
+                : _useClientCredentials
+                    ? CreateClientCredentialsClient()
+                    : CreateConfidentialApplicationClient();
         }
 
         private static IFhirClient CreateClient(IAuthService authService)
@@ -69,6 +77,11 @@ namespace Microsoft.Health.Extensions.Fhir
         private static IFhirClient CreateConfidentialApplicationClient()
         {
             return CreateClient(new OAuthConfidentialClientAuthService());
+        }
+
+        private static IFhirClient CreateClientCredentialsClient()
+        {
+            return CreateClient(new OAuthClientCredentialsAuthService());
         }
     }
 }

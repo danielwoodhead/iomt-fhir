@@ -8,5 +8,7 @@ namespace Microsoft.Health.Extensions.Fhir.Config
     public class FhirClientFactoryOptions
     {
         public bool UseManagedIdentity { get; set; } = false;
+
+        public bool UseClientCredentials { get; set; } = false;
     }
 }
