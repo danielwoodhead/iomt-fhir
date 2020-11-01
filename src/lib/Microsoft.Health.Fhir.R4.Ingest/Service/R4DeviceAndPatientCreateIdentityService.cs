@@ -81,6 +81,10 @@ namespace Microsoft.Health.Fhir.Ingest.Service
                         Console.WriteLine("HELLO!!!");
                         p.Id = input.PatientId;
                     }
+                    else
+                    {
+                        Console.WriteLine("BOO!!!");
+                    }
 
                     p.Identifier = new List<Model.Identifier> { id };
                 })

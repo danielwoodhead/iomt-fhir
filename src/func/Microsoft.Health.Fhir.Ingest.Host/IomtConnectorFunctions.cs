@@ -35,6 +35,7 @@ namespace Microsoft.Health.Fhir.Ingest.Service
 
             try
             {
+                Console.WriteLine("START!!!");
                 await measurementImportService.ProcessStreamAsync(req.Body, templateDefinition, log).ConfigureAwait(false);
                 return new AcceptedResult();
             }
