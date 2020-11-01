@@ -3,6 +3,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repo root for license information.
 // -------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EnsureThat;
@@ -77,6 +78,7 @@ namespace Microsoft.Health.Fhir.Ingest.Service
                 {
                     if (ResourceIdentityOptions.UseIdentifierAsResourceId)
                     {
+                        Console.WriteLine("HELLO!!!");
                         p.Id = input.PatientId;
                     }
 
