@@ -165,6 +165,13 @@
       "metadata": {
         "description": "Default system to use when searching for device identities. If empty system is not used in the search."
       }
+    },
+    "UseIdentifierAsResourceId": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Use the provided device/patient IDs as the FHIR resource IDs when creating resources."
+      }
     }
   },
   "variables": {
@@ -583,7 +590,8 @@
             "Template:DeviceContent": "devicecontent.json",
             "Template:FhirMapping": "fhirmapping.json",
             "ResourceIdentity:ResourceIdentityServiceType": "[parameters('ResourceIdentityResolutionType')]",
-            "ResourceIdentity:DefaultDeviceIdentifierSystem": "[parameters('DefaultDeviceIdentifierSystem')]"
+            "ResourceIdentity:DefaultDeviceIdentifierSystem": "[parameters('DefaultDeviceIdentifierSystem')]",
+            "ResourceIdentity:UseIdentifierAsResourceId": "[parameters('UseIdentifierAsResourceId')]"
           }
         },
         {

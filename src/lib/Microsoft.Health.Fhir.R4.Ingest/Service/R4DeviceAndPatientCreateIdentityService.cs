@@ -73,7 +73,15 @@ namespace Microsoft.Health.Fhir.Ingest.Service
                 FhirClient,
                 input.PatientId,
                 null,
-                (p, id) => p.Identifier = new List<Model.Identifier> { id })
+                (p, id) =>
+                {
+                    if (ResourceIdentityOptions.UseIdentifierAsResourceId)
+                    {
+                        p.Id = input.PatientId;
+                    }
+
+                    p.Identifier = new List<Model.Identifier> { id };
+                })
                 .ConfigureAwait(false);
 
             var device = await ResourceManagementService.EnsureResourceByIdentityAsync<Model.Device>(
@@ -82,6 +90,11 @@ namespace Microsoft.Health.Fhir.Ingest.Service
                 ResourceIdentityOptions?.DefaultDeviceIdentifierSystem,
                 (d, id) =>
                 {
+                    if (ResourceIdentityOptions.UseIdentifierAsResourceId)
+                    {
+                        d.Id = input.DeviceId;
+                    }
+
                     d.Identifier = new List<Model.Identifier> { id };
                     d.Patient = patient.ToReference();
                 })
