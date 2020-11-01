@@ -10,5 +10,7 @@ namespace Microsoft.Health.Fhir.Ingest.Config
         public string ResourceIdentityServiceType { get; set; } = Config.ResourceIdentityServiceType.Lookup.ToString();
 
         public string DefaultDeviceIdentifierSystem { get; set; } = null;
+
+        public bool UseIdentifierAsResourceId { get; set; } = false;
     }
 }
